@@ -1,4 +1,3 @@
-cat > README.md <<'EOF'
 # IdeaGen
 
 IdeaGen is an AI-powered SaaS application that generates new business ideas using OpenAI.
