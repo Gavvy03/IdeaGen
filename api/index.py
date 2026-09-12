@@ -1,4 +1,6 @@
-iimport os
+import json
+import os
+from urllib.request import Request, urlopen
 
 from fastapi import FastAPI, Depends
 from fastapi.responses import StreamingResponse
@@ -17,7 +19,7 @@ clerk_config = ClerkConfig(
 
 clerk_guard = ClerkHTTPBearer(
     clerk_config,
-    debug_mode=True
+    debug_mode=False
 )
 
 
@@ -32,6 +34,7 @@ def get_user_subscription(user_id: str):
         url,
         headers={
             "Authorization": f"Bearer {clerk_secret_key}",
+            "User-Agent": "IdeaGen/1.0",
         },
     )
 
@@ -50,7 +53,7 @@ def idea(creds: HTTPAuthorizationCredentials = Depends(clerk_guard)):
 
     # Clerk automatically gives every new user the default/free plan.
     # A paid user will have a different plan.
-    subscription_items = subscription.get("subscriptionItems", [])
+    subscription_items = subscription.get("subscription_items", [])
 
     is_free_user = True
 
@@ -58,7 +61,7 @@ def idea(creds: HTTPAuthorizationCredentials = Depends(clerk_guard)):
         plan = subscription_items[0].get("plan")
 
         if plan:
-            is_free_user = plan.get("isDefault", False)
+            is_free_user = plan.get("is_default", True) or (plan.get("slug") != "premium_subscription")
 
     # Set the appropriate instruction based on the user's plan
     if is_free_user:
