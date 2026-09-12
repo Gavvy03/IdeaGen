@@ -452,10 +452,11 @@ This project utilized the **Antigravity agentic engineering loop**:
   * Valid Clerk session JWTs verified against `CLERK_JWKS_URL`.
   * User subscription retrieved from Clerk API without Cloudflare WAF blocks.
   * Real-time streaming from OpenAI using model `gpt-5-nano` via Server-Sent Events (589 chunks, 3,141 characters).
+  * **Production Deployment Verified**: Successfully deployed to Vercel production (`https://saas-five-blue-38.vercel.app`). Live endpoints verified for Next.js frontend rendering, unauthenticated 403 FastAPI rejection, and authenticated Clerk JWT SSE streaming.
 * **Remains to Be Tested**:
   * Live end-to-end checkout flow using a test credit card on Clerk's hosted Stripe portal to verify automatic real-time entitlement transitions from Free to Premium.
 * **Deployment Status**:
-  * **Not deployed to production**. All verification has been conducted locally using `vercel dev`.
+  * **Deployed to production** on Vercel at `https://saas-five-blue-38.vercel.app`.
 * **Known Limitations**:
   * Local developer environment must use Python 3.13 in `PATH` when executing `vercel dev` to match pre-compiled native extension wheels.
 
